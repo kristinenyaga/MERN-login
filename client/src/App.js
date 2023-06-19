@@ -7,7 +7,8 @@ import Reset from './components/reset';
 import Username from './components/username';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import { AuthorizeUser } from './middleware/auth';
+import { ProtectRoute } from './middleware/auth';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,15 +28,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: (
+      <AuthorizeUser>
+        <Profile />
+      </AuthorizeUser>
+    ),
   },
   {
     path: "/password",
-    element: <Password />,
+    element: (
+      <ProtectRoute>
+        <Password />
+      </ProtectRoute>
+    ),
   },
   {
     path: "*",
-    element:<NotFound />,
+    element: <NotFound />,
   },
 ]);
 function App() {
