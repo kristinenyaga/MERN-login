@@ -1,12 +1,19 @@
 import React from 'react'
 import profile from '../assets/profile.png'
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import styles from '../styles/username.css'
 import { useFormik } from 'formik'
 import { Toaster } from 'react-hot-toast'
 import { usernameValidate } from '../helper/validate'
+import { useAuthStore } from '../store/store'
 const Username = () => {
+  // state contains the intial value and the action 
+  // we need to acces the settUsername action inorder to set the username on submit of the function
+  const setUsername = useAuthStore(state => state.setUsername)
 
+  
+  // useAuthStore(state)
+  const nav = useNavigate()
   const formik = useFormik({
     // specify initial values
     initialValues: {
@@ -17,7 +24,8 @@ const Username = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async values => {
-      console.log(values)
+      setUsername(values.username)
+      nav("/password")
     }
   })
   return (
