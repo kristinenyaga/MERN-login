@@ -3,17 +3,20 @@ import profile from '../assets/profile.png'
 import {Link} from 'react-router-dom'
 import styles from '../styles/username.css'
 import { useFormik } from 'formik'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import { registerValidate } from '../helper/validate'
+import { registerUser } from '../helper/helper'
 import convert from '..//helper/convert'
+import { useNavigate } from 'react-router-dom'
 const Register = () => {
+  const nav = useNavigate()
   const [file,setFile] = useState()
     const formik = useFormik({
     // specify initial values
       initialValues: {
         email: "",
         username: "",
-        password: ""
+        password: "" 
       
     },
     validate:registerValidate,
@@ -23,7 +26,17 @@ const Register = () => {
       onSubmit: async values => {
         // object.assign copies values from a source to a target object
       values = await Object.assign(values,{profile:file || ''})
-      console.log(values)
+        console.log(values)
+        let registerPromise = registerUser(values)
+        toast.promise(registerPromise, {
+          loading: "creating...",
+          success: <b>Registered successfully....!</b>,
+          error:<b>Could not load</b>
+        })
+        registerPromise.then(() => nav('/'))
+          .catch(error => {
+            toast.error(error.error.response.data.error)
+          })
     }
     })
   // formik doesn't support file upload
