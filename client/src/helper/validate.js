@@ -1,8 +1,21 @@
 import toast from 'react-hot-toast'
+import { authenticate } from '../helper/helper.js'
+import { login } from '../helper/helper.js'
 
 // validate login pageusername
+
 export  const usernameValidate = async (values) => {
   const errors = usernameVerify({}, values)
+  if (values.username) {
+    const { status } = await authenticate(values.username)
+    
+    if (status !== 200) {
+      errors.exist = toast.error('user does not exist')
+    }
+    else {
+      toast.success("user does  exist");
+    }
+  }
   return errors
 }
 
@@ -21,8 +34,8 @@ export  const resetpasswordValidate = async (values) => {
 }
 // validate register
 export  const registerValidate = async (values) => {
-  const errors = usernameValidate({}, values)
-  passwordValidate(errors, values)
+  const errors = usernameVerify({}, values)
+  passwordVerify(errors, values)
   emailVerify(errors,values)
   return errors
 }
