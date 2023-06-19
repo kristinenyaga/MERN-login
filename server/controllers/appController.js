@@ -59,7 +59,7 @@ export async function register(req, res) {
         }
       })
       .catch((error) => {
-        res.status(500).send({ error: `Error occurred: ${error.message}` });
+        res.status(500).send({ error: `${error.message}` });
       });
   } catch (error) {
     res.status(500).send({ error: "An error occurred" });
@@ -183,6 +183,7 @@ export async function generateOTP(req, res) {
 /** GET: http://localhost:8080/api/createResetSession */
 export async function verifyOTP(req, res) {
   const { code } = req.query
+  console.log(code,req.app.locals.OTP)
   if (parseInt(code) === parseInt(req.app.locals.OTP)) {
     req.app.locals.OTP = null //reset OTP value
     req.app.locals.resetSession = true //start session for reset password
@@ -195,8 +196,8 @@ export async function verifyOTP(req, res) {
 
 export async function createResetSession(req, res) {
   if (req.app.locals.resetSession) {
-    req.app.locals.resetSession = false //allow access to this route only once
-    return res.status(201).send({msg:"access granted"})
+    // req.app.locals.resetSession = false //allow access to this route only once
+    return res.status(201).send({ flag: req.app.locals.resetSession });
   }
   return res.status(440).send({error:"Session expired"})
 }
