@@ -3,10 +3,17 @@ import profile from '../assets/profile.png'
 import {Link} from 'react-router-dom'
 import styles from '../styles/username.css'
 import { useFormik } from 'formik'
-import { Toaster } from 'react-hot-toast'
+import toast,{ Toaster } from 'react-hot-toast'
 import { resetpasswordValidate } from '../helper/validate'
+import { resetPassword } from '../helper/helper'
+import { useAuthStore } from '../store/store'
+import { useNavigate,Navigate } from 'react-router-dom'
+import useFetch from '../hooks/fetch.hook'
 
 const Reset = () => {
+  const { username } = useAuthStore(state => state.auth)
+  const nav = useNavigate()
+  const [{isLoading,apiData,serverError,status}]=useFetch('createResetSession')
     const formik = useFormik({
     // specify initial values
     initialValues: {
@@ -19,8 +26,22 @@ const Reset = () => {
     validateOnChange: false,
     onSubmit: async values => {
       console.log(values)
+      let resetPromise = resetPassword({ username, password: values.password })
+      toast.promise(resetPromise, {
+        loading: "Updating....",
+        success: <b>Password reset was successful</b>,
+        error:<b>Could not change password</b>
+      })
+      resetPromise.then(() => {
+        nav('/')
+      })
     }
-  })
+    })
+ if(isLoading) return <h1 className='text-2xl font-bold'>isLoading</h1>;
+  if(serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
+  if (status && status !== 201) return <Navigate to={'/password'} replace={true}></Navigate>
+  
+
   return (
     <div className='container mx-auto'>
       <Toaster position='top-center' reverseOrder='false'></Toaster>
