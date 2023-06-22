@@ -204,43 +204,7 @@ export async function createResetSession(req, res) {
 
 // put
 // The updateOne function is used to update the user's password in the database. It takes two parameters: a query object to identify the user (in this case, based on the username), and an update object to specify the fields to be updated (in this case, setting the password to the hashed password).
-// export async function resetPassword(req, res) {
-//   try {
-//     if (!req.app.locals.resetSession)
-//       return res.status(440).send({ error: "Session expired!" });
-//   const { username, password } = req.body;
-    
-//       try {
-//         const user = userModel.findOne({ username });
-//         if (!user) {
-//           return res.status(404).json({ error: "Username doesn't exist" });
-//         }
-//         const hashedPassword = await bcrypt.hash(password, 10);
-//         if (hashedPassword) {
-//           const result = await userModel.updateOne(
-//             { username: user.username },
-//             { password: hashedPassword }
-//           );
-//           console.log(result)
-//           if (result.nModified === 0) {
-//             return res.status(404).json({ error: "User not found" });
-//           }
-//           req.app.locals.resetSession = false; // reset session
 
-//           return res
-//             .status(200)
-//             .json({ message: "Password reset successfully" });
-//         }
-//       } catch (error) {
-//         return res.status(400).json({ error: "Failed to update password" });
-//       }
-//   } catch (error) {
-//     return res.status(401).send({ error });
-//   }
-
-
-  
-// }
 export async function resetPassword(req, res) {
   try {
     if (!req.app.locals.resetSession)
