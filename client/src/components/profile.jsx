@@ -35,7 +35,8 @@ const Profile = () => {
       values = await Object.assign(values,{profile:file ||apiData?.user.profile || ''})
         await updateUser(values)
             .then(() => {
-            toast.success("Updated successfully")
+              toast.success("Updated successfully")
+              nav('/')
           })
           .catch(err => console.log(err))
         
@@ -78,7 +79,7 @@ const Profile = () => {
                  <input type='text' placeholder='lastname' className='shadow-md border-0 py-4 text-start rounded-lg text-md text-gray-700 focus:outline-none' {...formik.getFieldProps('lastName')} />
               </div>
               <div className='flex gap-2'>
-                 <input type='number' placeholder='mobile' className='shadow-md border-0 py-4  text-start rounded-lg text-md text-gray-700 focus:outline-none' {...formik.getFieldProps('mobile')} />
+                 <input type='mobile' placeholder='mobile' className='shadow-md border-0 py-4  text-start rounded-lg text-md text-gray-700 focus:outline-none' {...formik.getFieldProps('mobile')} />
                  <input type='email' placeholder='Email' className='shadow-md border-0 py-4  text-start rounded-lg text-md text-gray-700 focus:outline-none' {...formik.getFieldProps('email')} />
               </div>
                 <input type='text' placeholder='Address' className='shadow-md border-0 py-4  text-start rounded-lg text-md text-gray-700 focus:outline-none' {...formik.getFieldProps('address')} />

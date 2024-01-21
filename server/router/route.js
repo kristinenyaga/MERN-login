@@ -13,9 +13,7 @@ router.route("/login").post(controller.login);
 
 // GET METHODS
 router.route("/user/:username").get(controller.getUser); //get user with username
-router
-  .route("/generateOTP")
-  .get(controller.verifyUser, localVariables, controller.generateOTP);
+router.route("/generateOTP").get(controller.verifyUser, localVariables, controller.generateOTP);
 router.route("/verifyOTP").get(controller.verifyUser,controller.verifyOTP); //verify generated OTP
 router.route("/createResetSession").get(controller.createResetSession);
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import profile from '../assets/profile.png'
 import {Link} from 'react-router-dom'
 import styles from '../styles/username.css'
+import { useAuthStore } from '../store/store'
 import { useFormik } from 'formik'
 import toast, { Toaster } from 'react-hot-toast'
 import { registerValidate } from '../helper/validate'
@@ -10,7 +11,9 @@ import convert from '..//helper/convert'
 import { useNavigate } from 'react-router-dom'
 const Register = () => {
   const nav = useNavigate()
-  const [file,setFile] = useState()
+  const [file, setFile] = useState()
+  const setUsername = useAuthStore(state => state.setUsername)
+  
     const formik = useFormik({
     // specify initial values
       initialValues: {
@@ -33,7 +36,8 @@ const Register = () => {
           success: <b>Registered successfully....!</b>,
           error:<b>Could not load</b>
         })
-        registerPromise.then(() => nav('/'))
+        setUsername(values.username)
+        registerPromise.then(() => nav('/verifyemail'))
           .catch(error => {
             toast.error(error.error.response.data.error)
           })

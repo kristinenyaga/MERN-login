@@ -164,6 +164,7 @@ export async function updateUser(req, res) {
     });
 
     if (!updatedUser) {
+      console.log("user not found");
       return res.status(404).send({ error: "User not found" });
     }
 

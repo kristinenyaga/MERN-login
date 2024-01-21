@@ -9,6 +9,8 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthorizeUser } from './middleware/auth';
 import { ProtectRoute } from './middleware/auth';
+import VerifyEmail from './components/verifyemail';
+import Navbar from './components/navbar';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +25,11 @@ const router = createBrowserRouter([
     element: <Reset />,
   },
   {
+    path: '/verifyemail',
+    element:<VerifyEmail />
+  },
+  {
+    
     path: "/recovery",
     element: <Recovery />,
   },
@@ -49,7 +56,12 @@ const router = createBrowserRouter([
 ]);
 function App() {
   return (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router}>
+        <Navbar />
+        {router}
+      </RouterProvider>
+    </>
   );
 }
 
